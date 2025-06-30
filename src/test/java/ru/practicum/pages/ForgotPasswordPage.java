@@ -1,5 +1,6 @@
 package ru.practicum.pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
@@ -14,6 +15,7 @@ public class ForgotPasswordPage {
     }
 
     //Метод для клика по кнопке "Войти"
+    @Step("Click on the 'Login' button on the 'Forgot your password?' page")
     public void clickLoginButtonForgotPasswordPage() {
         driver.findElement(loginButtonForgotPasswordPage).click();
     }
