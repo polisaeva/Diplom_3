@@ -18,10 +18,6 @@ public class RegistrationTest {
 
     private WebDriver driver;
     private UserRegistrationSteps registrationSteps;
-
-    private String name = "User22";
-    private String email = "user22@yandex.ru";
-    private String password = "password";
     private User user;
     private Faker faker;
 

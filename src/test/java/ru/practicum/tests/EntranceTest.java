@@ -2,10 +2,6 @@ package ru.practicum.tests;
 
 import net.datafaker.Faker;
 import ru.practicum.model.User;
-import ru.practicum.pages.ForgotPasswordPage;
-import ru.practicum.pages.HomePage;
-import ru.practicum.pages.LoginPage;
-import ru.practicum.pages.RegisterPage;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;

@@ -1,6 +1,5 @@
 package ru.practicum.tests;
 
-import ru.practicum.pages.RegisterPage;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import org.junit.After;
@@ -8,7 +7,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
-import ru.practicum.constants.URL;
 import ru.practicum.steps.UserRegistrationSteps;
 import ru.practicum.utils.BrowserManager;
 
@@ -18,7 +16,6 @@ public class ErrorMessageParameterizedTest {
     private WebDriver driver;
     private String password;
     private boolean expectError;
-    private RegisterPage registerPage;
     private UserRegistrationSteps registrationSteps;
 
 

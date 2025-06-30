@@ -21,11 +21,14 @@ public class RegisterPage {
     private By loginButtonRegisterPage = By.xpath(".//a[@class='Auth_link__1fOlj']");
 
     //Локатор для поля "Имя"
-    private By nameFieldRegisterPage = By.xpath("//*[@id=\"root\"]/div/main/div/form/fieldset[1]/div/div/input");
+    //В структуре DOM баг, который не позволяет прописать локатор для полей ввода "Имя" и "Email" через тег input
+    //поэтому локатор прописан через тег того же уровня - label
+    private By nameFieldRegisterPage = By.xpath(".//label[text()='Имя']/following-sibling::input");
 
     //Локатор для поля "Email"
-    private By emailFieldRegisterPage = By.xpath("//*[@id=\"root\"]/div/main/div/form/fieldset[2]/div/div/input");
-
+    //В структуре DOM баг, который не позволяет прописать локатор для полей ввода "Имя" и "Email" через тег input
+    //поэтому локатор прописан через тег того же уровня - label
+    private By emailFieldRegisterPage = By.xpath(".//label[text()='Email']/following-sibling::input");
     //Локатор для поля "Пароль"
     private  By passwordFieldRegisterPage = By.xpath(".//input[@class='text input__textfield text_type_main-default' and @name='Пароль']");
 
