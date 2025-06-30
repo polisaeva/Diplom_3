@@ -4,14 +4,18 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.List;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static ru.practicum.constants.URL.TEST_STAND_REGISTER;
 
 public class RegisterPage {
     private WebDriver driver;
+    private final WebDriverWait wait;
 
     //Локатор для кнопки "Зарегистрироваться"
     private By registerButtonRegisterPage = By.xpath(".//button[@class='button_button__33qZ0 " +
@@ -37,7 +41,15 @@ public class RegisterPage {
 
     public RegisterPage(WebDriver driver) {
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
     }
+
+    //Метод для загрузки страницы RegisterPage
+    @Step("Loading RegisterPage")
+    public void loadingRegisterPage() {
+        driver.get(TEST_STAND_REGISTER);
+    }
+
 
     //Метод для клика по кнопке "Зарегистрироваться"
     @Step("Click on the 'Register' button")

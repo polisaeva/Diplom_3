@@ -1,20 +1,17 @@
 package ru.practicum.steps;
 
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
-import ru.practicum.constants.URL;
 import ru.practicum.model.User;
+import ru.practicum.pages.LoginPage;
 import ru.practicum.pages.RegisterPage;
 
-import java.time.Duration;
 
 import static org.junit.Assert.assertTrue;
 
 public class UserRegistrationSteps {
     private WebDriver driver;
     private RegisterPage registerPage;
-    private boolean anErrorMessageIsDisplayed;
+    private LoginPage loginPage;
 
     public UserRegistrationSteps(WebDriver driver) {
         this.driver = driver;
@@ -25,33 +22,29 @@ public class UserRegistrationSteps {
     public void registerUser(User user) {
 
         //Открываем страницу регистрации пользователя
-        driver.get(URL.TEST_STAND_REGISTER);
         registerPage = new RegisterPage(driver);
+        registerPage.loadingRegisterPage();
 
         //Заполнение полей ввода
-        String validName = user.getName();
-        String validEmail = user.getEmail();
-        String validPassword = user.getPassword();
-
-        registerPage.setNameFieldRegisterPage(validName);
-        registerPage.setEmailFieldRegisterPage(validEmail);
-        registerPage.setPasswordFieldRegisterPage(validPassword);
+        registerPage.setNameFieldRegisterPage(user.getName());
+        registerPage.setEmailFieldRegisterPage(user.getEmail());
+        registerPage.setPasswordFieldRegisterPage(user.getPassword());
 
         //Клик по кнопке "Зарегистрироваться"
         registerPage.clickRegisterButtonRegisterPage();
 
         //Ожидание перехода на страницу авторизации
-        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
-        wait.until(ExpectedConditions.urlContains("/login"));
-        assertTrue("После успешной регистрации должен быть переход на страницу авторизации", driver
-                .getCurrentUrl().endsWith("/login"));
+        loginPage = new LoginPage(driver);
+        loginPage.waitingForLoginPageToLoad();
+        assertTrue("После успешной регистрации должен быть переход на страницу авторизации",
+                loginPage.currentURLMatchesTheLoginPageAddress());
     }
 
     //Метод, описывающий весь путь тестового сценария проверки появления сообщения об ошибке
     public void checkingMessageDisplayForDifferentPasswordLengths(String password, boolean expectError) {
         //Открываем страницу регистрации пользователя
-        driver.get(URL.TEST_STAND_REGISTER);
         registerPage = new RegisterPage(driver);
+        registerPage.loadingRegisterPage();
 
         //Заполнить поле "Пароль" тестовыми данными
         registerPage.setPasswordFieldRegisterPage(password);

@@ -1,7 +1,6 @@
 package ru.practicum.steps;
 
 import org.openqa.selenium.WebDriver;
-import ru.practicum.constants.URL;
 import ru.practicum.pages.HomePage;
 
 import static org.junit.Assert.assertFalse;
@@ -19,8 +18,8 @@ public class SectionSteps {
     //Метод, описывающий весь путь тестового сценария проверки, что раздел "Булки" активен по умолчанию
     public void shouldBunsSectionBeActiveByDefault() {
         //Открываем страницу Stellar Burger
-        driver.get(URL.TEST_STAND_HOME_PAGE);
         homePage = new HomePage(driver);
+        homePage.loadingHomePage();
 
         //Проверить, что раздел "Булки" активен по умолчанию
         assertTrue("Раздел 'Булки' должен быть активен по умолчанию",
@@ -30,8 +29,8 @@ public class SectionSteps {
     //Методы, описывающий весь путь тестового сценария проверки, что раздел "Булки" становится активным после клика
     public void shouldBunsSectionBecomeActiveWhenClicked() {
         //Открываем страницу Stellar Burger
-        driver.get(URL.TEST_STAND_HOME_PAGE);
         homePage = new HomePage(driver);
+        homePage.loadingHomePage();
 
         //Клик на раздел "Соусы"
         homePage.clickSectionSauces();
@@ -53,8 +52,8 @@ public class SectionSteps {
     //Метод, описывающий весь путь тестового сценария проверки, что раздел "Соусы" становится активным после клика
     public void shouldSaucesSectionBecomeActiveWhenClicked() {
         //Открываем страницу Stellar Burger
-        driver.get(URL.TEST_STAND_HOME_PAGE);
         homePage = new HomePage(driver);
+        homePage.loadingHomePage();
 
         //Клик на раздел "Соусы"
         homePage.clickSectionSauces();
@@ -73,8 +72,8 @@ public class SectionSteps {
     //Метод, описывающий весь путь тестового сценария проверки, что раздел "Начинки" становится активным после клика
     public void shouldFillingsSectionBecomeActiveWhenClicked() {
         //Открываем страницу Stellar Burger
-        driver.get(URL.TEST_STAND_HOME_PAGE);
         homePage = new HomePage(driver);
+        homePage.loadingHomePage();
 
         // Клик на раздел "Начинки"
         homePage.clickSectionFillings();

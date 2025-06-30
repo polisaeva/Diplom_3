@@ -4,9 +4,17 @@ import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import ru.practicum.constants.URL;
+
+import java.time.Duration;
+
+import static ru.practicum.constants.URL.TEST_STAND_HOME_PAGE;
 
 public class HomePage {
     private WebDriver driver;
+    private final WebDriverWait wait;
 
     //Локатор для кнопки "Личный кабинет"
     private By personalAccountButton = By.xpath(".//p[@class='AppHeader_header__linkText__3q_va ml-2' " +
@@ -27,7 +35,27 @@ public class HomePage {
 
     public HomePage(WebDriver driver) {
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
     }
+
+    //Метод загрузки страницы HomePage
+    @Step("Loading HomePage")
+    public void loadingHomePage() {
+        driver.get(URL.TEST_STAND_HOME_PAGE);
+    }
+
+    //Метод для ожидания загрузки главной страницы
+    @Step("Waiting for home page to load")
+    public void waitingForHomePageToLoad() {
+        wait.until(ExpectedConditions.urlToBe(TEST_STAND_HOME_PAGE));
+    }
+
+    //Метод для проверки успешного перехода на главную страницу
+    @Step("Successful transition to home page")
+        public boolean currentURLMatchesTheHomePageAddress() {
+        return driver.getCurrentUrl().equals(URL.TEST_STAND_HOME_PAGE);
+    }
+
 
     //Метод для клика по кнопке "Войти в аккаунт"
     @Step("Click on the 'Login to your account' button")

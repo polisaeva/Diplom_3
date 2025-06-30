@@ -3,9 +3,16 @@ package ru.practicum.pages;
 import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+
+import static ru.practicum.constants.URL.TEST_STAND_LOGIN;
 
 public class LoginPage {
     private WebDriver driver;
+    private final WebDriverWait wait;
 
     //Локатор для кнопки "Зарегистрироваться"
     private By registerButtonLoginPage = By.xpath(".//a[@class='Auth_link__1fOlj' and " +
@@ -29,6 +36,19 @@ public class LoginPage {
 
     public LoginPage(WebDriver driver) {
         this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+    }
+
+    //Метод для ожидания загрузки страницы авторизации
+    @Step("Waiting for login page to load")
+    public void waitingForLoginPageToLoad() {
+        wait.until(ExpectedConditions.urlToBe(TEST_STAND_LOGIN));
+    }
+
+    //Метод для проверки успешного перехода на страницу авторизации
+    @Step("Successful transition to home page")
+    public boolean currentURLMatchesTheLoginPageAddress() {
+        return driver.getCurrentUrl().endsWith("/login");
     }
 
     //Метод для клика по кнопке "Зарегистрироваться"
