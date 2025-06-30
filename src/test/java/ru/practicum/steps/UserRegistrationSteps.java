@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.practicum.constants.URL;
+import ru.practicum.model.User;
 import ru.practicum.pages.RegisterPage;
 
 import java.time.Duration;
@@ -21,16 +22,20 @@ public class UserRegistrationSteps {
     }
 
     //Метод, описывающий весь путь тестового сценария успешной регистрации
-    public void registerUser(String name, String email, String password) {
+    public void registerUser(User user) {
 
         //Открываем страницу регистрации пользователя
         driver.get(URL.TEST_STAND_REGISTER);
         registerPage = new RegisterPage(driver);
 
         //Заполнение полей ввода
-        registerPage.setNameFieldRegisterPage(name);
-        registerPage.setEmailFieldRegisterPage(email);
-        registerPage.setPasswordFieldRegisterPage(password);
+        String validName = user.getName();
+        String validEmail = user.getEmail();
+        String validPassword = user.getPassword();
+
+        registerPage.setNameFieldRegisterPage(validName);
+        registerPage.setEmailFieldRegisterPage(validEmail);
+        registerPage.setPasswordFieldRegisterPage(validPassword);
 
         //Клик по кнопке "Зарегистрироваться"
         registerPage.clickRegisterButtonRegisterPage();

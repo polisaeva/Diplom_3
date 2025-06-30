@@ -3,10 +3,13 @@ package ru.practicum.tests;
 import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
+import net.datafaker.Faker;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import ru.practicum.ApiUser;
+import ru.practicum.model.User;
 import ru.practicum.steps.UserRegistrationSteps;
 import ru.practicum.utils.BrowserManager;
 
@@ -19,7 +22,23 @@ public class RegistrationTest {
     private String name = "User22";
     private String email = "user22@yandex.ru";
     private String password = "password";
+    private User user;
+    private Faker faker;
 
+
+    @Before
+    public void setUp() {
+        faker = new Faker();
+        user = generateRandomUser();
+    }
+
+    private User generateRandomUser() {
+        return new User(
+                faker.internet().emailAddress(),
+                faker.internet().password(6, 8, true, true, true),
+                faker.name().firstName()
+        );
+    }
 
     //Успешная регистрация в браузере Google Chrome
     @Test
@@ -28,7 +47,7 @@ public class RegistrationTest {
     public void registrationInChromeBrowserTest() {
         driver = BrowserManager.createBrowser("chrome");
         registrationSteps = new UserRegistrationSteps(driver);
-        registrationSteps.registerUser(name, email, password);
+        registrationSteps.registerUser(user);
     }
 
     //Успешная регистрация в Яндекс.Браузере
@@ -38,7 +57,7 @@ public class RegistrationTest {
     public void registrationInYandexBrowserTest() {
         driver = BrowserManager.createBrowser("yandex");
         registrationSteps = new UserRegistrationSteps(driver);
-        registrationSteps.registerUser(name, email, password);
+        registrationSteps.registerUser(user);
     }
 
 
@@ -47,7 +66,7 @@ public class RegistrationTest {
         driver.quit();
 
         //Отправить запрос на авторизацию пользователя в системе
-        Response loginResponse = ApiUser.loginUser(email, password, name);
+        Response loginResponse = ApiUser.loginUser(user);
         //Получить токен accessToken пользователя
         String token = ApiUser.getAccessTokenFromUser(loginResponse);
         //Удалить пользователя из системы

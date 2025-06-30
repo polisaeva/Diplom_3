@@ -1,5 +1,7 @@
 package ru.practicum.tests;
 
+import net.datafaker.Faker;
+import ru.practicum.model.User;
 import ru.practicum.pages.ForgotPasswordPage;
 import ru.practicum.pages.HomePage;
 import ru.practicum.pages.LoginPage;
@@ -19,16 +21,25 @@ import ru.practicum.utils.BrowserManager;
 public class EntranceTest {
     private WebDriver driver;
     private UserAuthorizationSteps userAuthorizationSteps;
+    private User user;
+    private Faker faker;
 
-    private String name = "User22";
-    private String email = "user22@yandex.ru";
-    private String password = "password";
 
     @Before
     public void setUp() {
+        faker = new Faker();
+        user = generateRandomUser();
         //Отправить запрос на создание пользователя в системе
-        Response response = ApiUser.submitARequestToCreateAUser(email, password, name);
+        Response response = ApiUser.submitARequestToCreateAUser(user);
         System.out.println("Status: " + response.getStatusCode());
+    }
+
+    private User generateRandomUser() {
+        return new User(
+                faker.internet().emailAddress(),
+                faker.internet().password(6, 8, true, true, true),
+                faker.name().firstName()
+        );
     }
 
         //Проверка входа в систему через кнопку "Войти в аккаунт" в браузере Google Chrome
@@ -38,7 +49,7 @@ public class EntranceTest {
         public void successfulLoginViaTheLoginToAccountButtonInGoogleChromeTest() {
             driver = BrowserManager.createBrowser("chrome");
             userAuthorizationSteps = new UserAuthorizationSteps(driver);
-            userAuthorizationSteps.logInUsingTheLogInToAccountButton(email, password);
+            userAuthorizationSteps.logInUsingTheLogInToAccountButton(user);
         }
 
         //Проверка входа в систему через кнопку "Личный кабинет" в браузере Google Chrome
@@ -48,7 +59,7 @@ public class EntranceTest {
         public void successfulLoginUsingThePersonalAccountButtonInGoogleChromeTest() {
             driver = BrowserManager.createBrowser("chrome");
             userAuthorizationSteps = new UserAuthorizationSteps(driver);
-            userAuthorizationSteps.logInUsingThePersonalAccountButton(email, password);
+            userAuthorizationSteps.logInUsingThePersonalAccountButton(user);
         }
 
         //Проверка входа в систему через кнопку "Войти" в форме регистрации в браузере Google Chrome
@@ -58,7 +69,7 @@ public class EntranceTest {
         public void successfulLoginUsingTheLoginButtonInTheRegistrationFormInGoogleChromeTest() {
             driver = BrowserManager.createBrowser("chrome");
             userAuthorizationSteps = new UserAuthorizationSteps(driver);
-            userAuthorizationSteps.logInUsingTheButtonInTheRegistrationForm(email, password);
+            userAuthorizationSteps.logInUsingTheButtonInTheRegistrationForm(user);
         }
 
         //Проверка входа в систему через кнопку "Войти" в форме восстановления пароля в браузере Google Chrome
@@ -68,7 +79,7 @@ public class EntranceTest {
         public void successfulLoginUsingTheLoginButtonInThePasswordRecoveryFormInGoogleChromeTest() {
             driver = BrowserManager.createBrowser("chrome");
             userAuthorizationSteps = new UserAuthorizationSteps(driver);
-            userAuthorizationSteps.loginUsingTheButtonInThePasswordRecoveryForm(email, password);
+            userAuthorizationSteps.loginUsingTheButtonInThePasswordRecoveryForm(user);
         }
 
         //Проверка входа в систему через кнопку "Войти в аккаунт" в Яндекс.Браузере
@@ -78,7 +89,7 @@ public class EntranceTest {
         public void successfulLoginViaTheLoginToAccountButtonInYandexBrowserTest() {
             driver = BrowserManager.createBrowser("yandex");
             userAuthorizationSteps = new UserAuthorizationSteps(driver);
-            userAuthorizationSteps.logInUsingTheLogInToAccountButton(email, password);
+            userAuthorizationSteps.logInUsingTheLogInToAccountButton(user);
         }
 
         //Проверка входа в систему через кнопку "Личный кабинет" в Яндекс.Браузере
@@ -88,7 +99,7 @@ public class EntranceTest {
         public void successfulLoginUsingThePersonalAccountButtonInYandexBrowserTest() {
             driver = BrowserManager.createBrowser("yandex");
             userAuthorizationSteps = new UserAuthorizationSteps(driver);
-            userAuthorizationSteps.logInUsingThePersonalAccountButton(email, password);
+            userAuthorizationSteps.logInUsingThePersonalAccountButton(user);
         }
 
         //Проверка входа в систему через кнопку "Войти" в форме регистрации в Яндекс.Браузере
@@ -98,7 +109,7 @@ public class EntranceTest {
         public void successfulLoginUsingTheLoginButtonInTheRegistrationFormInYandexBrowserTest() {
             driver = BrowserManager.createBrowser("yandex");
             userAuthorizationSteps = new UserAuthorizationSteps(driver);
-            userAuthorizationSteps.logInUsingTheButtonInTheRegistrationForm(email, password);
+            userAuthorizationSteps.logInUsingTheButtonInTheRegistrationForm(user);
         }
 
         //Проверка входа в систему через кнопку "Войти" в форме восстановления пароля в Яндекс.Браузере
@@ -108,7 +119,7 @@ public class EntranceTest {
         public void successfulLoginUsingTheLoginButtonInThePasswordRecoveryFormInYandexBrowserTest() {
             driver = BrowserManager.createBrowser("yandex");
             userAuthorizationSteps = new UserAuthorizationSteps(driver);
-            userAuthorizationSteps.loginUsingTheButtonInThePasswordRecoveryForm(email, password);
+            userAuthorizationSteps.loginUsingTheButtonInThePasswordRecoveryForm(user);
         }
 
     @After
@@ -116,7 +127,7 @@ public class EntranceTest {
         driver.quit();
 
         //Отправить запрос на авторизацию пользователя в системе
-        Response loginResponse = ApiUser.loginUser(email, password, name);
+        Response loginResponse = ApiUser.loginUser(user);
         //Получить токен accessToken пользователя
         if (loginResponse.getStatusCode() == 200) {
             String token = ApiUser.getAccessTokenFromUser(loginResponse);

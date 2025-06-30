@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import ru.practicum.constants.URL;
+import ru.practicum.model.User;
 import ru.practicum.pages.ForgotPasswordPage;
 import ru.practicum.pages.HomePage;
 import ru.practicum.pages.LoginPage;
@@ -27,7 +28,7 @@ public class UserAuthorizationSteps {
 
 
     //Метод, описывающий весь путь тестового сценария входа в систему через кнопку "Войти в аккаунт"
-    public void logInUsingTheLogInToAccountButton(String email, String password) {
+    public void logInUsingTheLogInToAccountButton(User user) {
         //Открываем страницу Stellar Burger
         driver.get(URL.TEST_STAND_HOME_PAGE);
         homePage = new HomePage(driver);
@@ -40,8 +41,10 @@ public class UserAuthorizationSteps {
 
         loginPage = new LoginPage(driver);
         //Заполнение полей ввода
-        loginPage.setEmailFieldLoginPage(email);
-        loginPage.setPasswordFieldLoginPage(password);
+        String validEmail = user.getEmail();
+        String validPassword = user.getPassword();
+        loginPage.setEmailFieldLoginPage(validEmail);
+        loginPage.setPasswordFieldLoginPage(validPassword);
 
         //Клик по кнопке "Войти"
         loginPage.clickLoginButtonLoginPage();
@@ -55,7 +58,7 @@ public class UserAuthorizationSteps {
     }
 
     //Метод, описывающий весь путь тестового сценария входа в систему через кнопку "Личный кабинет"
-    public void logInUsingThePersonalAccountButton(String email, String password) {
+    public void logInUsingThePersonalAccountButton(User user) {
         //Открываем страницу Stellar Burger
         driver.get(URL.TEST_STAND_HOME_PAGE);
         homePage = new HomePage(driver);
@@ -68,8 +71,10 @@ public class UserAuthorizationSteps {
 
         loginPage = new LoginPage(driver);
         //Заполнение полей ввода
-        loginPage.setEmailFieldLoginPage(email);
-        loginPage.setPasswordFieldLoginPage(password);
+        String validEmail = user.getEmail();
+        String validPassword = user.getPassword();
+        loginPage.setEmailFieldLoginPage(validEmail);
+        loginPage.setPasswordFieldLoginPage(validPassword);
 
         //Клик по кнопке "Войти"
         loginPage.clickLoginButtonLoginPage();
@@ -83,7 +88,7 @@ public class UserAuthorizationSteps {
     }
 
     //Метод, описывающий весь путь тестового сценария входа в систему через кнопку в форме регистрации
-    public void logInUsingTheButtonInTheRegistrationForm(String email, String password) {
+    public void logInUsingTheButtonInTheRegistrationForm(User user) {
         //Открываем страницу регистрации пользователя
         driver.get(URL.TEST_STAND_REGISTER);
         registerPage = new RegisterPage(driver);
@@ -96,8 +101,10 @@ public class UserAuthorizationSteps {
 
         loginPage = new LoginPage(driver);
         //Заполнение полей ввода
-        loginPage.setEmailFieldLoginPage(email);
-        loginPage.setPasswordFieldLoginPage(password);
+        String validEmail = user.getEmail();
+        String validPassword = user.getPassword();
+        loginPage.setEmailFieldLoginPage(validEmail);
+        loginPage.setPasswordFieldLoginPage(validPassword);
 
         //Клик по кнопке "Войти"
         loginPage.clickLoginButtonLoginPage();
@@ -111,7 +118,7 @@ public class UserAuthorizationSteps {
     }
 
     //Метод, описывающий весь путь тестового сценария входа в систему через кнопку форме восстановления пароля
-    public void loginUsingTheButtonInThePasswordRecoveryForm(String email, String password) {
+    public void loginUsingTheButtonInThePasswordRecoveryForm(User user) {
         //Открываем страницу с формой восстановления пароля
         driver.get(URL.TEST_STAND_FORGOT_PASSWORD);
         forgotPasswordPage = new ForgotPasswordPage(driver);
@@ -124,8 +131,10 @@ public class UserAuthorizationSteps {
 
         loginPage = new LoginPage(driver);
         //Заполнение полей ввода
-        loginPage.setEmailFieldLoginPage(email);
-        loginPage.setPasswordFieldLoginPage(password);
+        String validEmail = user.getEmail();
+        String validPassword = user.getPassword();
+        loginPage.setEmailFieldLoginPage(validEmail);
+        loginPage.setPasswordFieldLoginPage(validPassword);
 
         //Клик по кнопке "Войти"
         loginPage.clickLoginButtonLoginPage();
