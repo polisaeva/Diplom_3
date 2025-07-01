@@ -20,6 +20,7 @@ public class DriverHelper {
 
         switch (browserType) {
             case CHROME:
+                System.setProperty("webdriver.chrome.driver", "C:\\WebDriver\\chromedriver-win64\\chromedriver.exe");
                 return new ChromeDriver();
             case YANDEX:
                 String yandexBrowserPath = "C:\\Users\\Polina\\AppData\\Local\\Yandex\\YandexBrowser\\Application\\browser.exe";
