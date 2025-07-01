@@ -7,25 +7,25 @@ import net.datafaker.Faker;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
 import ru.practicum.ApiUser;
 import ru.practicum.model.User;
 import ru.practicum.steps.UserRegistrationSteps;
-import ru.practicum.utils.BrowserManager;
+
+import java.io.IOException;
 
 
-public class RegistrationTest {
+public class RegistrationTest extends BaseTest {
 
-    private WebDriver driver;
     private UserRegistrationSteps registrationSteps;
     private User user;
     private Faker faker;
 
 
     @Before
-    public void setUp() {
+    public void prepareTest() throws IOException {
         faker = new Faker();
         user = generateRandomUser();
+        registrationSteps = new UserRegistrationSteps(driver);
     }
 
     private User generateRandomUser() {
@@ -36,31 +36,16 @@ public class RegistrationTest {
         );
     }
 
-    //Успешная регистрация в браузере Google Chrome
+    //Успешная регистрация
     @Test
-    @DisplayName("Successful registration in google chrome browser")
+    @DisplayName("Successful registration")
     @Description("Upon successful registration, you are redirected to the user authorization page")
-    public void registrationInChromeBrowserTest() {
-        driver = BrowserManager.createBrowser("chrome");
-        registrationSteps = new UserRegistrationSteps(driver);
+    public void registrationTest() {
         registrationSteps.registerUser(user);
     }
-
-    //Успешная регистрация в Яндекс.Браузере
-    @Test
-    @DisplayName("Successful registration in yandex browser")
-    @Description("Upon successful registration, you are redirected to the user authorization page")
-    public void registrationInYandexBrowserTest() {
-        driver = BrowserManager.createBrowser("yandex");
-        registrationSteps = new UserRegistrationSteps(driver);
-        registrationSteps.registerUser(user);
-    }
-
 
     @After
-    public void tearDown() {
-        driver.quit();
-
+    public void cleanUp() {
         //Отправить запрос на авторизацию пользователя в системе
         Response loginResponse = ApiUser.loginUser(user);
         //Получить токен accessToken пользователя

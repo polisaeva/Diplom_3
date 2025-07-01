@@ -7,27 +7,27 @@ import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import org.junit.After;
 import org.junit.Before;
-
 import org.junit.Test;
-import org.openqa.selenium.WebDriver;
 import ru.practicum.ApiUser;
 import ru.practicum.steps.UserAuthorizationSteps;
-import ru.practicum.utils.BrowserManager;
 
-public class EntranceTest {
-    private WebDriver driver;
+import java.io.IOException;
+
+public class EntranceTest extends BaseTest {
+
     private UserAuthorizationSteps userAuthorizationSteps;
     private User user;
     private Faker faker;
 
 
     @Before
-    public void setUp() {
+    public void prepareTest() throws IOException {
         faker = new Faker();
         user = generateRandomUser();
         //Отправить запрос на создание пользователя в системе
         Response response = ApiUser.submitARequestToCreateAUser(user);
         System.out.println("Status: " + response.getStatusCode());
+        userAuthorizationSteps = new UserAuthorizationSteps(driver);
     }
 
     private User generateRandomUser() {
@@ -38,90 +38,40 @@ public class EntranceTest {
         );
     }
 
-        //Проверка входа в систему через кнопку "Войти в аккаунт" в браузере Google Chrome
+        //Проверка входа в систему через кнопку "Войти в аккаунт"
         @Test
-        @DisplayName("Successful login via the 'Login to account' button in Google Chrome")
+        @DisplayName("Successful login via the 'Login to account' button")
         @Description("As a result, the main page of Stellar Burger is open")
-        public void successfulLoginViaTheLoginToAccountButtonInGoogleChromeTest() {
-            driver = BrowserManager.createBrowser("chrome");
-            userAuthorizationSteps = new UserAuthorizationSteps(driver);
+        public void successfulLoginViaTheLoginToAccountButtonTest() {
             userAuthorizationSteps.logInUsingTheLogInToAccountButton(user);
         }
 
-        //Проверка входа в систему через кнопку "Личный кабинет" в браузере Google Chrome
+        //Проверка входа в систему через кнопку "Личный кабинет"
         @Test
-        @DisplayName("Successful login using the 'Personal Account' button in Google Chrome")
+        @DisplayName("Successful login using the 'Personal Account' button")
         @Description("As a result, the main page of Stellar Burger is open")
-        public void successfulLoginUsingThePersonalAccountButtonInGoogleChromeTest() {
-            driver = BrowserManager.createBrowser("chrome");
-            userAuthorizationSteps = new UserAuthorizationSteps(driver);
+        public void successfulLoginUsingThePersonalAccountButtonTest() {
             userAuthorizationSteps.logInUsingThePersonalAccountButton(user);
         }
 
-        //Проверка входа в систему через кнопку "Войти" в форме регистрации в браузере Google Chrome
+        //Проверка входа в систему через кнопку "Войти" в форме регистрации
         @Test
-        @DisplayName("Successful login using the \"Login\" button in the registration form in Google Chrome")
+        @DisplayName("Successful login using the \"Login\" button in the registration form")
         @Description("As a result, the main page of Stellar Burger is open")
-        public void successfulLoginUsingTheLoginButtonInTheRegistrationFormInGoogleChromeTest() {
-            driver = BrowserManager.createBrowser("chrome");
-            userAuthorizationSteps = new UserAuthorizationSteps(driver);
+        public void successfulLoginUsingTheLoginButtonInTheRegistrationFormTest() {
             userAuthorizationSteps.logInUsingTheButtonInTheRegistrationForm(user);
         }
 
-        //Проверка входа в систему через кнопку "Войти" в форме восстановления пароля в браузере Google Chrome
+        //Проверка входа в систему через кнопку "Войти" в форме восстановления пароля
         @Test
-        @DisplayName("Successful login using the 'Login' button in the password recovery form in Google Chrome")
+        @DisplayName("Successful login using the 'Login' button in the password recovery form")
         @Description("As a result, the main page of Stellar Burger is open")
-        public void successfulLoginUsingTheLoginButtonInThePasswordRecoveryFormInGoogleChromeTest() {
-            driver = BrowserManager.createBrowser("chrome");
-            userAuthorizationSteps = new UserAuthorizationSteps(driver);
-            userAuthorizationSteps.loginUsingTheButtonInThePasswordRecoveryForm(user);
-        }
-
-        //Проверка входа в систему через кнопку "Войти в аккаунт" в Яндекс.Браузере
-        @Test
-        @DisplayName("Successful login via the 'Login to account' button in Yandex Browser")
-        @Description("As a result, the main page of Stellar Burger is open")
-        public void successfulLoginViaTheLoginToAccountButtonInYandexBrowserTest() {
-            driver = BrowserManager.createBrowser("yandex");
-            userAuthorizationSteps = new UserAuthorizationSteps(driver);
-            userAuthorizationSteps.logInUsingTheLogInToAccountButton(user);
-        }
-
-        //Проверка входа в систему через кнопку "Личный кабинет" в Яндекс.Браузере
-        @Test
-        @DisplayName("Successful login using the 'Personal Account' button in Yandex Browser")
-        @Description("As a result, the main page of Stellar Burger is open")
-        public void successfulLoginUsingThePersonalAccountButtonInYandexBrowserTest() {
-            driver = BrowserManager.createBrowser("yandex");
-            userAuthorizationSteps = new UserAuthorizationSteps(driver);
-            userAuthorizationSteps.logInUsingThePersonalAccountButton(user);
-        }
-
-        //Проверка входа в систему через кнопку "Войти" в форме регистрации в Яндекс.Браузере
-        @Test
-        @DisplayName("Successful login using the 'Login' button in the registration form in Yandex Browser")
-        @Description("As a result, the main page of Stellar Burger is open")
-        public void successfulLoginUsingTheLoginButtonInTheRegistrationFormInYandexBrowserTest() {
-            driver = BrowserManager.createBrowser("yandex");
-            userAuthorizationSteps = new UserAuthorizationSteps(driver);
-            userAuthorizationSteps.logInUsingTheButtonInTheRegistrationForm(user);
-        }
-
-        //Проверка входа в систему через кнопку "Войти" в форме восстановления пароля в Яндекс.Браузере
-        @Test
-        @DisplayName("Successful login using the 'Login' button in the password recovery form in Yandex Browser")
-        @Description("As a result, the main page of Stellar Burger is open")
-        public void successfulLoginUsingTheLoginButtonInThePasswordRecoveryFormInYandexBrowserTest() {
-            driver = BrowserManager.createBrowser("yandex");
-            userAuthorizationSteps = new UserAuthorizationSteps(driver);
+        public void successfulLoginUsingTheLoginButtonInThePasswordRecoveryFormTest() {
             userAuthorizationSteps.loginUsingTheButtonInThePasswordRecoveryForm(user);
         }
 
     @After
-    public void tearDown() {
-        driver.quit();
-
+    public void cleanUp() {
         //Отправить запрос на авторизацию пользователя в системе
         Response loginResponse = ApiUser.loginUser(user);
         //Получить токен accessToken пользователя
