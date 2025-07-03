@@ -1,0 +1,83 @@
+package ru.practicum.pages;
+
+import io.qameta.allure.Step;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+
+import static ru.practicum.constants.URL.TEST_STAND_LOGIN;
+
+public class LoginPage {
+    private WebDriver driver;
+    private final WebDriverWait wait;
+
+    //Локатор для кнопки "Зарегистрироваться"
+    private By registerButtonLoginPage = By.xpath(".//a[@class='Auth_link__1fOlj' and " +
+            "text()='Зарегистрироваться']");
+
+    //Локатор для кнопки "Восстановить пароль"
+    private By recoverPasswordButton = By.xpath(".//a[@class='Auth_link__1fOlj' and " +
+            "text()='Восстановить пароль']");
+
+    //Локатор для кнопки "Войти"
+    private By loginButtonLoginPage = By.xpath(".//button[@class='button_button__33qZ0 " +
+            "button_button_type_primary__1O7Bx button_button_size_medium__3zxIa']");
+
+    //Локатор для поля "Email"
+    private By emailFieldLoginPage = By.xpath(".//input[@class='text input__textfield " +
+            "text_type_main-default' and @name='name']");
+
+    //Локатор для поля "Пароль"
+    private  By passwordFieldLoginPage = By.xpath(".//input[@class='text input__textfield " +
+            "text_type_main-default' and @name='Пароль']");
+
+    public LoginPage(WebDriver driver) {
+        this.driver = driver;
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+    }
+
+    //Метод для ожидания загрузки страницы авторизации
+    @Step("Waiting for login page to load")
+    public void waitingForLoginPageToLoad() {
+        wait.until(ExpectedConditions.urlToBe(TEST_STAND_LOGIN));
+    }
+
+    //Метод для проверки успешного перехода на страницу авторизации
+    @Step("Successful transition to home page")
+    public boolean currentURLMatchesTheLoginPageAddress() {
+        return driver.getCurrentUrl().endsWith("/login");
+    }
+
+    //Метод для клика по кнопке "Зарегистрироваться"
+    @Step("Click on the 'Register' button")
+    public void clickRegisterButtonLoginPage() {
+        driver.findElement(registerButtonLoginPage).click();
+    }
+
+    //Метод для клика по кнопке "Восстановить пароль"
+    @Step("Click on the 'Recover Password' button")
+    public void clickRecoverPasswordButtonLoginPage() {
+        driver.findElement(recoverPasswordButton).click();
+    }
+
+    //Метод для клика по кнопке "Войти"
+    @Step("Click on the 'Login' button")
+    public void clickLoginButtonLoginPage() {
+        driver.findElement(loginButtonLoginPage).click();
+    }
+
+    //Метод для заполнения поля "Email"
+    @Step("Filling in the 'Email' field")
+    public void setEmailFieldLoginPage(String email) {
+        driver.findElement(emailFieldLoginPage).sendKeys(email);
+    }
+
+    //Метод для заполнения поля "Пароль"
+    @Step("Filling in the 'Password' field")
+    public void setPasswordFieldLoginPage(String password) {
+        driver.findElement(passwordFieldLoginPage).sendKeys(password);
+    }
+}
